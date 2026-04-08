@@ -1,0 +1,2 @@
+**Notes de déploiement (Vercel) :**
+- Le fichier `vercel.json` et le dossier `api/` servent de "pont" technique pour permettre l'exécution du PHP sur Vercel et assurer le bon fonctionnement du routage vers `index.php`.
