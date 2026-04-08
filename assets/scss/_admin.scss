@@ -1,0 +1,506 @@
+// --- ADMIN ---
+
+.admin-header {
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+  }
+}
+
+// Layout des formulaires d'administration
+.admin-form-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.admin-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+
+  @media (min-width: 992px) {
+    grid-template-columns: minmax(0, 1fr) 300px;
+  }
+}
+
+// Zone principale du formulaire
+.form-main {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// Zone latérale du formulaire (médias, options)
+.form-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .sidebar-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+
+    h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--dim-text);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.25rem;
+    }
+  }
+}
+
+// Groupes de champs
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--dim-text);
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) / 1.5);
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: var(--transition);
+    outline: none;
+
+    &:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+    }
+
+    &::placeholder {
+      color: #444;
+    }
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+}
+
+// Gestion des images et previews
+.form-image-preview {
+  margin-top: 0.5rem;
+  
+  .img-preview {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg);
+  }
+
+  &.profile-preview {
+    display: flex;
+    justify-content: center;
+    .img-preview {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+    }
+  }
+}
+
+// Éditeur Riche (Quill)
+.editor-wrapper {
+  min-height: 300px;
+  background: #fff;
+  color: #000;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  
+  .ql-toolbar {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background: #f8f9fa;
+  }
+  
+  .ql-container {
+    border: none;
+    font-family: var(--font-main);
+    font-size: 1rem;
+  }
+}
+
+// Checkboxes et multi-sélection
+.checkboxes-group {
+  .checkboxes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--dim-text);
+    transition: var(--transition);
+
+    &:hover {
+      color: var(--text);
+    }
+
+    input[type="checkbox"] {
+      cursor: pointer;
+      accent-color: var(--accent);
+    }
+  }
+}
+
+// Dashboard Stats et Cartes
+.admin-items {
+  margin-top: 3rem;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.item-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: var(--transition);
+
+  &:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+
+  h3 {
+    font-size: 0.85rem;
+    color: var(--dim-text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+
+  .count {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+}
+
+// Tables d'administration
+.admin-table-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  margin-top: 2rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+
+  th, td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--dim-text);
+    background: rgba(255,255,255,0.02);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  .thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+  }
+
+  .actions-flex {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+// Helpers
+.alert-warning {
+  padding: 1rem;
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+}
+
+// Dashboard Profile Card
+.admin-profile-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  margin-bottom: 3rem;
+
+  .profile-header {
+    margin-bottom: 2rem;
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.25rem;
+      margin: 0;
+    }
+  }
+
+  .profile-content {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      text-align: center;
+      gap: 1.5rem;
+    }
+  }
+
+  .profile-img img,
+  .img-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border);
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dim-text);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  .profile-info {
+    flex: 1;
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .bio {
+      color: var(--dim-text);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .info-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+
+      li {
+        font-size: 0.9rem;
+        color: var(--dim-text);
+        
+        strong {
+          color: var(--text);
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+}
+// --- LOGIN PAGE ---
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: radial-gradient(circle at top left, rgba(var(--accent-rgb), 0.05), transparent),
+              radial-gradient(circle at bottom right, rgba(var(--accent-rgb), 0.05), transparent);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) * 1.5);
+  padding: 3rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+
+    .logo-circle {
+      width: 64px;
+      height: 64px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: var(--accent);
+      
+      svg { width: 24px; height: 24px; }
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 850;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      color: var(--dim-text);
+      font-size: 0.95rem;
+    }
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--dim-text);
+      }
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      svg {
+        position: absolute;
+        left: 1rem;
+        width: 18px;
+        height: 18px;
+        color: var(--dim-text);
+        pointer-events: none;
+        transition: var(--transition);
+      }
+
+      input {
+        padding-left: 3rem !important;
+
+        &:focus + svg {
+          color: var(--accent);
+        }
+      }
+    }
+
+    .btn-full {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 1rem;
+      font-size: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+
+      svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover svg {
+        transform: translateX(4px);
+      }
+    }
+  }
+
+  .login-footer {
+    margin-top: 2.5rem;
+    text-align: center;
+    
+    a {
+      font-size: 0.9rem;
+      color: var(--dim-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+
+      svg { width: 14px; height: 14px; }
+
+      &:hover {
+        color: var(--text);
+      }
+    }
+  }
+}

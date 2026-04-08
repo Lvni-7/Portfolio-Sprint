@@ -1,0 +1,72 @@
+<div class="project-details-container">
+    <div class="project-media-column">
+        <div class="main-image-viewport">
+            <?php
+            // image principale
+            if ($project->getImage()): ?>
+                <img id="main-display" src="<?= htmlspecialchars($project->getImage()) ?>"
+                    alt="<?= htmlspecialchars($project->getTitle()) ?>">
+            <?php else: ?>
+                <div class="img-placeholder" id="main-display">Pas d'image principale</div>
+            <?php endif; ?>
+        </div>
+
+        <div class="thumbnails-container">
+            <div class="thumbnails-scroll">
+                <?php
+                // gallery des images
+                $images = $project->getImages(); ?>
+                <div class="thumb-item active"
+                    onclick="updateMainImage('<?= htmlspecialchars($project->getImage()) ?>', this)">
+                    <img src="<?= htmlspecialchars($project->getImage()) ?>" alt="Cover">
+                </div>
+                <?php if ($images): ?>
+                    <?php foreach ($images as $img): ?>
+                        <div class="thumb-item" onclick="updateMainImage('<?= htmlspecialchars($img->getUrl()) ?>', this)">
+                            <img src="<?= htmlspecialchars($img->getUrl()) ?>" alt="<?= htmlspecialchars($img->getAlt()) ?>">
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-info-column">
+        <h1 class="project-title"><?= htmlspecialchars($project->getTitle()) ?></h1>
+        <p class="project-category">Catégorie :
+            <?= $project->getCategory() ? htmlspecialchars($project->getCategory()->getName()) : 'Non classé' ?></p>
+
+        <div class="project-description">
+            <?= $project->getDescription() ?>
+        </div>
+
+        <?php
+        // show les skills liés au project
+        $skills = $project->getSkills();
+        if ($skills): ?>
+            <div class="skills-list">
+                <?php foreach ($skills as $skill): ?>
+                    <span class="badge-label"><?= htmlspecialchars($skill->getName()) ?></span>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="details-actions">
+            <a href="index.php?action=home" class="btn btn-secondary">Retour à l'accueil</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // helper pour swap l'image au click sur thumb
+    function updateMainImage(url, thumb) {
+        const mainImg = document.getElementById('main-display');
+        if (mainImg) {
+            mainImg.src = url;
+        }
+
+        // update l'UI active
+        document.querySelectorAll('.thumb-item').forEach(item => item.classList.remove('active'));
+        thumb.classList.add('active');
+    }
+</script>

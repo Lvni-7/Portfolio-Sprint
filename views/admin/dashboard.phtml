@@ -1,0 +1,72 @@
+
+<section class="admin-profile-card">
+    <div class="profile-header">
+        <h2 class="section-title">Mes Informations <a href="index.php?action=profile-form" class="btn btn-primary btn-sm">Modifier</a></h2>
+    </div>
+    <div class="profile-content">
+        <div class="profile-img">
+            <?php 
+                // check si profile photo existe
+                if ($profile && $profile->getImage()): ?>
+                <img src="<?= htmlspecialchars($profile->getImage()->getUrl()) ?>" alt="Profil">
+            <?php else: ?>
+                <div class="img-placeholder">Aucune Image</div>
+            <?php endif; ?>
+        </div>
+        <div class="profile-info">
+            <h3><?= htmlspecialchars($profile ? $profile->getName() : 'Profile Non Initialisé') ?></h3>
+            <div class="bio"><?= $profile ? $profile->getDescription() : 'Veuillez configurer votre profil.' ?></div>
+            <ul class="info-list">
+                <?php 
+                    // extra infos profile
+                    if ($profile): ?>
+                    <li><strong>Date de naissance :</strong> <?= (new DateTime($profile->getDateOfBirth()))->format('d/m/Y') ?></li>
+                    <li><strong>Email :</strong> <?= htmlspecialchars($profile->getEmail()) ?></li>
+                    <li><strong>Téléphone :</strong> <?= htmlspecialchars($profile->getPhoneNumber()) ?></li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="admin-items">
+    <h2 class="section-title">Éléments</h2>
+    <div class="items-grid">
+        <!-- card réseaux sociaux -->
+        <div class="item-card">
+            <h3>Réseaux Sociaux</h3>
+            <div class="count"><?= (int)($stats['socials'] ?? 0) ?></div>
+            <div class="card-actions">
+                <a href="index.php?action=social-form" class="btn btn-primary btn-sm">Ajouter</a>
+                <a href="index.php?action=social-list" class="btn btn-secondary btn-sm">Gérer</a>
+            </div>
+        </div>
+        <!-- card projets -->
+        <div class="item-card">
+            <h3>Projets</h3>
+            <div class="count"><?= (int)($stats['projects'] ?? 0) ?></div>
+            <div class="card-actions">
+                <a href="index.php?action=admin-form" class="btn btn-primary btn-sm">Ajouter</a>
+                <a href="index.php?action=admin-list" class="btn btn-secondary btn-sm">Gérer</a>
+            </div>
+        </div>
+        <!-- card skills -->
+        <div class="item-card">
+            <h3>Skills</h3>
+            <div class="count"><?= (int)($stats['skills'] ?? 0) ?></div>
+            <div class="card-actions">
+                <a href="index.php?action=skill-form" class="btn btn-primary btn-sm">Ajouter</a>
+                <a href="index.php?action=skill-list" class="btn btn-secondary btn-sm">Gérer</a>
+            </div>
+        </div>
+        <!-- card catégories -->
+        <div class="item-card">
+            <h3>Catégories</h3>
+            <div class="count"><?= (int)($stats['categories'] ?? 0) ?></div>
+            <div class="card-actions">
+                <a href="index.php?action=category-form" class="btn btn-primary btn-sm">Ajouter</a>
+                <a href="index.php?action=category-list" class="btn btn-secondary btn-sm">Gérer</a>
+            </div>
+        </div>
+    </div>
+</section>

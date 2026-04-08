@@ -1,0 +1,148 @@
+<section class="home-hero">
+    <div class="hero-container">
+        <div class="hero-main">
+            <div class="hero-text">
+                <h1 class="hero-title">Je suis <?= htmlspecialchars($profile ? $profile->getName() : '') ?></h1>
+                
+                <?php 
+                    // check si dob present
+                    if ($profile && $profile->getDateOfBirth()): ?>
+                    <p class="hero-subtitle">Né le <?= (new DateTime($profile->getDateOfBirth()))->format('d/m/Y') ?></p>
+                <?php endif; ?>
+
+                <div class="hero-bio">
+                    <?= $profile ? $profile->getDescription() : '' ?>
+                </div>
+
+                <div class="hero-actions">
+                    <a href="#projects-container" class="btn btn-primary">Voir mes projets</a>
+                    <a href="#contact" class="btn btn-secondary">Me contacter</a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="image-wrapper">
+                    <?php 
+                        // profile picture
+                        if ($profile && $profile->getImage()): ?>
+                        <img src="<?= htmlspecialchars($profile->getImage()->getUrl()) ?>" alt="Profil" class="hero-img">
+                    <?php endif; ?>
+                    <div class="image-backdrop"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-skills">
+            <h2 class="skills-title">Mes Skills</h2>
+            <div class="skills-grid">
+                <?php 
+                    // loop sur les skills
+                    foreach ($skills as $skill): ?>
+                    <div class="skill-card">
+                        <div class="skill-info">
+                            <span class="skill-name"><?= htmlspecialchars($skill->getName()) ?></span>
+                            <span class="skill-perc"><?= (int)$skill->getLevel() ?>%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div class="skill-bar-fill" style="--width: <?= (int)$skill->getLevel() ?>%"></div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="separator">
+
+<section class="home-projects">
+    <h2 class="section-title">Mes Projets</h2>
+    
+    <div class="filter-section">
+        <label for="category-filter">Filtrer par catégorie</label>
+        <select id="category-filter">
+            <option value="all">Toutes les catégories</option>
+            <?php 
+                // loop les categories pour le filter
+                foreach ($categories as $cat): ?>
+                <option value="<?= (int)$cat->getId() ?>">
+                    <?= htmlspecialchars($cat->getName()) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+
+    <div class="projects-grid" id="projects-container">
+        <?php 
+            // render les projects cards
+            foreach ($projects as $project): ?>
+            <a href="index.php?action=project-details&id=<?= (int)$project->getId() ?>" class="project-card" data-category="<?= (int)$project->getIdCategory() ?>">
+                <div class="card-img">
+                    <?php if ($project->getImage()): ?>
+                        <img src="<?= htmlspecialchars($project->getImage()) ?>" alt="<?= htmlspecialchars($project->getTitle()) ?>">
+                    <?php else: ?>
+                        <div class="img-placeholder">Projet</div>
+                    <?php endif; ?>
+                    <button class="btn btn-primary btn-discover">Détails</button>
+                    <p class="category-text"><?= $project->getCategory() ? htmlspecialchars($project->getCategory()->getName()) : 'Réalisation' ?></p>
+                </div>
+                <div class="card-body">
+                    <h3><?= htmlspecialchars($project->getTitle()) ?></h3>
+                    <p class="category-info"><?= $project->getCategory() ? htmlspecialchars($project->getCategory()->getName()) : 'Réalisation' ?></p>
+                </div>
+            </a>
+        <?php endforeach; ?>
+    </div>
+</section>
+
+<hr class="separator">
+
+<section class="home-contact" id="contact">
+    <h2 class="section-title">Me Contacter</h2>
+    
+    <div class="contact-bento">
+        <?php 
+            // main contact card (email)
+            if ($profile && $profile->getEmail()): ?>
+            <a href="mailto:<?= htmlspecialchars($profile->getEmail()) ?>" class="bento-card main-contact">
+                <div class="card-icon"><i data-lucide="mail"></i></div>
+                <div class="card-content">
+                    <h3>Email</h3>
+                    <p><?= htmlspecialchars($profile->getEmail()) ?></p>
+                </div>
+            </a>
+        <?php endif; ?>
+
+        <?php 
+            // loop les reseaux sociales en petites cartes
+            foreach ($socials as $social): ?>
+            <a href="<?= htmlspecialchars($social->getUrl()) ?>" class="bento-card social-item" target="_blank">
+                <div class="card-icon"><i data-lucide="<?= htmlspecialchars($social->getIcon() ?: 'link') ?>"></i></div>
+                <div class="card-content">
+                    <h3><?= htmlspecialchars($social->getName()) ?></h3>
+                    <span>Suivre</span>
+                </div>
+            </a>
+        <?php endforeach; ?>
+    </div>
+</section>
+
+<script>
+// logic simple pour filter les projects par category
+document.addEventListener('DOMContentLoaded', function() {
+    const filterSelect = document.getElementById('category-filter');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterSelect.addEventListener('change', function() {
+        const selectedValue = this.value;
+
+        projectCards.forEach(card => {
+            if (selectedValue === 'all' || card.getAttribute('data-category') === selectedValue) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+</script>

@@ -1,0 +1,26 @@
+// --- MIXINS ---
+
+@mixin glass {
+    background: rgba(8, 8, 8, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+@mixin card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin heading($size, $weight: 700) {
+    font-size: $size;
+    font-weight: $weight;
+    letter-spacing: -0.04em;
+    font-family: var(--font-title);
+}

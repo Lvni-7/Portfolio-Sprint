@@ -1,0 +1,25 @@
+<div class="admin-form-container">
+    <div class="admin-header">
+        <h1><?= isset($category) ? 'Modifier' : 'Ajouter' ?> une Catégorie</h1>
+        <a href="index.php?action=category-list" class="btn btn-secondary">Retour</a>
+    </div>
+
+    <form action="index.php?action=category-save" method="post" class="admin-form">
+        <?php if (isset($category)): ?>
+            <input type="hidden" name="id" value="<?= (int)$category->getId() ?>">
+        <?php endif; ?>
+
+        <div class="form-main">
+            <div class="form-group">
+                <label for="name">Nom de la catégorie</label>
+                <input type="text" name="name" id="name" value="<?= htmlspecialchars($category ? $category->getName() : '') ?>" placeholder="Ex: Web Design" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+        </div>
+        
+        </div>
+    </form>
+</div>

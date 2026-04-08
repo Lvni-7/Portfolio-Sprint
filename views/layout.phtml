@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= htmlspecialchars($title ?? 'Mon Portfolio') ?></title>
+    <!-- load google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- main css file -->
+    <link rel="stylesheet" href="assets/css/index.css?v=2.1">
+    <!-- load lucide icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="index.php?action=home" class="logo">
+                <?php 
+                    // get le name du profile
+                    if (isset($profile) && $profile): 
+                    $parts = explode(' ', $profile->getName());
+                ?>
+                    <?= htmlspecialchars($parts[0] ?? 'Portfolio') ?> <span><?= htmlspecialchars($parts[1] ?? '') ?></span>
+                <?php else: ?>
+                    Mon <span>Portfolio</span>
+                <?php endif; ?>
+            </a>
+            <div class="header-nav">
+                <?php 
+                    // check si admin est connecté
+                    if (isset($_SESSION['user'])): ?>
+                    <a href="index.php?action=admin-dashboard" class="btn btn-secondary btn-sm">Tableau de bord</a>
+                    <a href="index.php?action=logout" class="btn btn-danger btn-sm">Déconnexion</a>
+                <?php else: ?>
+                    <a href="index.php?action=login" class="nav-icon-admin" title="Connexion">
+                        <i data-lucide="shield" style="width:20px; height:20px;"></i>
+                    </a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <?php 
+            // loop sur les flash messages
+            if (isset($_SESSION['flash'])): ?>
+            <?php foreach ($_SESSION['flash'] as $type => $message): ?>
+                <div class="alert alert-<?= $type ?>">
+                    <?= htmlspecialchars($message) ?>
+                </div>
+            <?php endforeach;
+            // clear les flash après render
+            unset($_SESSION['flash']); ?>
+        <?php endif; ?>
+
+        <?php 
+            // render le content de la page
+            include __DIR__ . '/' . $content . '.phtml'; ?>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-left">
+                &copy; <?= date('Y') ?> - Portfolio
+            </div>
+            <div class="footer-right">
+                <?php if (isset($profile) && $profile): ?>
+                    Créé par <?= htmlspecialchars($profile->getName()) ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // init les icons lucide
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

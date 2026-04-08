@@ -1,0 +1,20 @@
+# SASS / CSS
+.sass-cache/
+*.css.map
+.sass-cache
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+
+# Environment / Local Config
+/configs/Database.php.bak
+/tmp/
+
+# Log files
+*.log

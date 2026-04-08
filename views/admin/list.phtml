@@ -1,0 +1,54 @@
+<div class="admin-header">
+    <h1>Tableau de bord</h1>
+</div>
+
+<section class="admin-list-section">
+    <div class="list-header">
+        <h2>Projets <a href="index.php?action=admin-form" class="btn btn-success btn-sm">Ajouter</a></h2>
+    </div>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Titre</th>
+                <th>Catégorie</th>
+                <th>Skills</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+                // loop sur les projets
+                foreach ($projects as $project): ?>
+                <tr>
+                    <td class="td-img">
+                        <?php 
+                            // check image exist
+                            if ($project->getImage()): ?>
+                            <img src="<?= htmlspecialchars($project->getImage()) ?>" alt="<?= htmlspecialchars($project->getTitle()) ?>" class="thumb">
+                        <?php else: ?>
+                            <div class="thumb-placeholder">NA</div>
+                        <?php endif; ?>
+                    </td>
+                    <td><?= htmlspecialchars($project->getTitle()) ?></td>
+                    <td><?= $project->getCategory() ? htmlspecialchars($project->getCategory()->getName()) : 'Non classé' ?></td>
+                    <td>
+                        <div class="skills-list">
+                            <?php 
+                                // show les badges skills
+                                foreach ($project->getSkills() as $skill): ?>
+                                <span class="badge badge-label"><?= htmlspecialchars($skill->getName()) ?></span>
+                            <?php endforeach; ?>
+                        </div>
+                    </td>
+                    <td class="td-actions">
+                        <a href="index.php?action=project-details&id=<?= (int)$project->getId() ?>" class="btn btn-primary btn-sm">Voir</a>
+                        <a href="index.php?action=admin-form&id=<?= (int)$project->getId() ?>" class="btn btn-primary btn-sm">Modifier</a>
+                        <a href="index.php?action=admin-delete&id=<?= (int)$project->getId() ?>" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer ce projet ?')">Supprimer</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</section>

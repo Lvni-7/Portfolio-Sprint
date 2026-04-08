@@ -1,0 +1,97 @@
+<div class="admin-form-container">
+    <div class="admin-header">
+        <h1>Editer mon Profil</h1>
+        <a href="index.php?action=admin-dashboard" class="btn">Annuler</a>
+    </div>
+
+    <form action="index.php?action=profile-save" method="post" class="admin-form">
+        <?php 
+            // id hidden si profile existe
+            if (isset($profile)): ?>
+            <input type="hidden" name="id" value="<?= (int)$profile->getId() ?>">
+        <?php else: ?>
+            <p class="alert-warning">Aucun profil existant. Remplissez ces champs pour créer votre profil initial.</p>
+        <?php endif; ?>
+
+        <div class="form-main">
+            <div class="form-group">
+                <label for="name">Votre Nom complet</label>
+                <input type="text" name="name" id="name" value="<?= htmlspecialchars($profile ? $profile->getName() : '') ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Votre Email de contact</label>
+                <input type="email" name="email" id="email" value="<?= htmlspecialchars($profile ? $profile->getEmail() : '') ?>" placeholder="contact@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="phone_number">Numéro de téléphone</label>
+                <input type="text" name="phone_number" id="phone_number" value="<?= htmlspecialchars($profile ? $profile->getPhoneNumber() : '') ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="date_of_birth">Date de naissance (JJ/MM/AAAA)</label>
+                <?php 
+                    // formatage de la date pour le form
+                    $dob = $profile ? $profile->getDateOfBirth() : '';
+                    if ($dob && strpos($dob, '-') !== false) {
+                        $dob = date('d/m/Y', strtotime($dob));
+                    }
+                ?>
+                <input type="text" name="date_of_birth" id="date_of_birth" value="<?= htmlspecialchars($dob) ?>" placeholder="Ex: 15/05/1990">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Votre Bio / Présentation</label>
+                <!-- quill styles -->
+                <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+                <div id="editor-container" class="editor-wrapper"><?= $profile ? $profile->getDescription() : '' ?></div>
+                <input type="hidden" name="description" id="description-input">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="submit-btn"><?= isset($profile) ? 'Mettre à jour le profil' : 'Créer mon profil' ?></button>
+            </div>
+        </div>
+
+        <div class="form-sidebar">
+            <div class="sidebar-card">
+                <h3>Photo de profil</h3>
+                <div class="form-group">
+                    <label for="profile_image">URL de l'image</label>
+                    <input type="text" name="profile_image" id="profile_image" value="<?= ($profile && $profile->getImage()) ? htmlspecialchars($profile->getImage()->getUrl()) : '' ?>" placeholder="URL de l'image">
+                </div>
+                
+                <?php 
+                    // image preview
+                    if ($profile && $profile->getImage()): ?>
+                    <div class="form-image-preview profile-preview">
+                        <img src="<?= htmlspecialchars($profile->getImage()->getUrl()) ?>" alt="Aperçu" class="img-preview">
+                    </div>
+                <?php endif; ?>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+    // init quill editor
+    var quill = new Quill('#editor-container', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline'],
+                ['link', 'blockquote', 'code-block'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+            ]
+        }
+    });
+
+    // sync quill content avant submit
+    document.querySelector('.admin-form').onsubmit = function() {
+        var description = document.querySelector('#description-input');
+        description.value = quill.root.innerHTML;
+    };
+</script>

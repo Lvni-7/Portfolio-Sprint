@@ -1,0 +1,36 @@
+<div class="login-page">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="logo-circle"><i data-lucide="lock"></i></div>
+            <h1>Administration</h1>
+            <p>Connectez-vous pour gérer votre portfolio</p>
+        </div>
+
+        <form action="index.php?action=login" method="post" class="login-form">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <div class="input-wrapper">
+                    <i data-lucide="mail"></i>
+                    <input type="email" name="email" id="email" placeholder="votre@email.com" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <div class="input-wrapper">
+                    <i data-lucide="key"></i>
+                    <input type="password" name="password" id="password" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">
+                Se connecter
+                <i data-lucide="arrow-right"></i>
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <a href="index.php?action=home"><i data-lucide="home"></i> Retour au site</a>
+        </div>
+    </div>
+</div>

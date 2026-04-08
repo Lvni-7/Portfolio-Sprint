@@ -1,0 +1,138 @@
+// --- BASE ---
+
+:root {
+  --bg: #{$bg};
+  --surface: #{$surface};
+  --surface-hover: #{$surface-hover};
+  --text: #{$text};
+  --dim-text: #{$dim-text};
+  --border: #{$border};
+  --accent: #{$accent};
+  --accent-rgb: #{$accent-rgb};
+  --primary: #{$primary};
+  --radius: #{$radius};
+  --font-main: #{$font-main};
+  --font-title: #{$font-title};
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+
+  @media (min-width: 768px) {
+    padding: 0 2rem;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: var(--transition);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  color: var(--text);
+
+  &:hover {
+    border-color: #444;
+    background: var(--surface-hover);
+    transform: translateY(-1px);
+  }
+
+  &-primary {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+
+    &:hover {
+      background: #e5e5e5;
+    }
+  }
+
+  &-secondary {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--dim-text);
+
+    &:hover {
+      border-color: var(--text);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  &-danger {
+    color: #f87171;
+    border-color: rgba(248, 113, 113, 0.2);
+
+    &:hover {
+      background: #f87171;
+      color: #fff;
+    }
+  }
+
+  &-success {
+    color: #4ade80;
+    border-color: rgba(74, 222, 128, 0.2);
+
+    &:hover {
+      background: #4ade80;
+      color: var(--bg);
+    }
+  }
+
+  &-sm {
+    padding: 0.35rem 0.9rem;
+    font-size: 0.75rem;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.alert {
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+
+  &-success {
+    color: #4ade80;
+    border-color: rgba(74, 222, 128, 0.2);
+    background: rgba(74, 222, 128, 0.05);
+  }
+
+  &-error {
+    color: #f87171;
+    border-color: rgba(248, 113, 113, 0.2);
+    background: rgba(248, 113, 113, 0.05);
+  }
+}

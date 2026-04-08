@@ -1,0 +1,23 @@
+// --- VARIABLES ---
+
+// Colors
+$bg: #080808;
+$surface: #111111;
+$surface-hover: #161616;
+$text: #ffffff;
+$dim-text: #9ca3af;
+$border: #262626;
+$accent: #6366f1;
+$accent-rgb: 99, 102, 241;
+$primary: #6366f1;
+$danger: #f87171;
+$success: #4ade80;
+
+// Typography
+$font-main: 'Inter', system-ui, -apple-system, sans-serif;
+$font-title: 'Outfit', sans-serif;
+
+// Layout
+$container-max: 960px;
+$radius: 8px;
+$transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);

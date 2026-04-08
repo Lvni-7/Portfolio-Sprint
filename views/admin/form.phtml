@@ -1,0 +1,120 @@
+<div class="admin-form-container">
+    <div class="admin-header">
+        <h1><?= isset($project) ? 'Modifier le projet' : 'Ajouter un projet' ?></h1>
+        <a href="index.php?action=admin-list" class="btn btn-secondary">Retour à la liste</a>
+    </div>
+
+    <form action="index.php?action=admin-save" method="post" class="admin-form">
+        <?php
+        // id hidden pour update
+        if (isset($project)): ?>
+            <input type="hidden" name="id" value="<?= (int) $project->getId() ?>">
+        <?php endif; ?>
+
+        <div class="form-main">
+            <div class="form-group">
+                <label for="title">Titre du Projet</label>
+                <input type="text" name="title" id="title"
+                    value="<?= htmlspecialchars($project ? $project->getTitle() : '') ?>" placeholder="Nom du projet"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description détaillée</label>
+                <!-- editor riche quill -->
+                <textarea name="description" id="editor-textarea"
+                    class="hidden"><?= $project ? $project->getDescription() : '' ?></textarea>
+                <div id="editor-container" class="editor-wrapper"><?= $project ? $project->getDescription() : '' ?>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit"
+                    class="btn btn-primary"><?= isset($project) ? 'Enregistrer les modifications' : 'Créer le projet' ?></button>
+            </div>
+        </div>
+
+        <div class="form-sidebar">
+            <div class="sidebar-card">
+                <h3>Classification</h3>
+                <div class="form-group">
+                    <label for="id_category">Catégorie</label>
+                    <select name="id_category" id="id_category">
+                        <?php
+                        // loop les categories dispo
+                        foreach ($categories as $cat): ?>
+                            <option value="<?= (int) $cat->getId() ?>" <?= (isset($project) && $project->getIdCategory() == $cat->getId()) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($cat->getName()) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>Vignette & Image</h3>
+                <div class="form-group">
+                    <label for="image">URL de l'image principale</label>
+                    <input type="text" name="image" id="image"
+                        value="<?= htmlspecialchars($project ? $project->getImage() : '') ?>"
+                        placeholder="assets/img/projects/...">
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label for="gallery_urls">Galerie d'images (URLs - une par ligne)</label>
+                    <textarea name="gallery_urls" id="gallery_urls" rows="5"
+                        placeholder="assets/img/gallery1.png&#10;assets/img/gallery2.png"><?php
+                        if ($project) {
+                            $images = $project->getImages();
+                            $urls = [];
+                            foreach ($images as $img) {
+                                $urls[] = $img->getUrl();
+                            }
+                            echo implode("\n", $urls);
+                        }
+                        ?></textarea>
+                </div>
+
+                <?php
+                // preview si image present
+                if ($project && $project->getImage()): ?>
+                    <div class="form-image-preview">
+                        <img src="<?= htmlspecialchars($project->getImage()) ?>" alt="Aperçu" class="img-preview">
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="form-group checkboxes-group">
+                    <label>Skills associés</label>
+                    <div class="checkboxes-list">
+                        <?php
+                        // check boxes pour les skills
+                        foreach ($skills as $skill): ?>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills[]" value="<?= (int) $skill->getId() ?>"
+                                    <?= in_array($skill->getId(), $projectSkills) ? 'checked' : '' ?>>
+                                <?= htmlspecialchars($skill->getName()) ?>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Quill Editor resources -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+    // init quill
+    let quill = new Quill('#editor-container', {
+        theme: 'snow'
+    });
+
+    // sync quill content dans le textarea hidden avant submit
+    document.querySelector('.admin-form').onsubmit = function () {
+        document.querySelector('#editor-textarea').value = quill.root.innerHTML;
+    };
+</script>
